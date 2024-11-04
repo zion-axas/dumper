@@ -1,0 +1,6 @@
+# crontab -e
+
+# cp crontab /etc/cron.d/crontab
+# crontab /etc/cron.d/crontab
+
+0 4 * * * /root/dumper/dumper.sh >> /var/log/cron_dumper.log 2>&1
