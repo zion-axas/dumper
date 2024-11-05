@@ -1,12 +1,13 @@
 ## PG Dumper: dump pg docker db and load to s3
 
-### Create venv:
+### Create folder and clone dumper repo:
 
-`python -m venv venv`
+`mkdir /root/dumper && cd /root/dumper`  
+`git clone https://<repo-url>`
 
-### Activate venv:
+### Create and activate python venv:
 
-`source venv/bin/activate`
+`python -m venv venv && source venv/bin/activate`
 
 ### Install requirements:
 
@@ -16,7 +17,7 @@
 
 `deactivate`
 
-### Set .env settings file:
+### Create .env settings file:
 
 ```
 # pg
@@ -33,14 +34,26 @@ S3_SECRET_ACCESS_KEY=YCOgpRPar5ylfFZ7zZ8iUzRiiq2jZl**********
 S3_BUCKET_NAME=myapp
 ```
 
+! don't forget to name your pg db container in docker-compose.yml:
+
+```
+services:
+  db:
+    container_name: dbstore
+    image: postgres:12
+```
+
 ### Add execute permision:
 
 `chmod +x dumper.sh`
 
 ### Set crontab service:
 
-`crontab -e`  
-`0 4 * * * /root/dumper/dumper.sh >> /var/log/cron_dumper.log 2>&1`
+`crontab -e` - open crontab settings  
+`0 4 * * * cd /root/dumper && ./dumper.sh >> /var/log/cron_dumper.log 2>&1` - add line  
+set time ^^^ and workdir ^^^^
+
+## Its done!
 
 ### To dump manually:
 
@@ -49,4 +62,8 @@ S3_BUCKET_NAME=myapp
 ### To remove file from s3:
 
 `chmod +x remover.sh`  
-`./remover.sh https://file_url`
+`./remover.sh https://<file_url>`
+
+### To read logs:
+
+`cat /var/log/cron_dumper.log`
