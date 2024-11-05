@@ -2,7 +2,7 @@
 set -e
 
 # load CONTAINER_NAME and POSTGRES_USER from .env
-source .env
+source ./.env
 
 BACKUP_DIR="/var/pg_dump"
 
